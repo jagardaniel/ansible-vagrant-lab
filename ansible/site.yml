@@ -1,0 +1,6 @@
+---
+
+- hosts: nameservers
+  roles:
+    - common
+    - nsd

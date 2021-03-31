@@ -1,0 +1,38 @@
+---
+
+nftables_input_tcp: [53]
+nftables_input_udp: [53]
+
+nsd_interfaces:
+  - 127.0.0.1@5353
+
+nsd_zones:
+  - name: lab.internal
+    soa: lab01.lab.internal
+    serial: 1
+    name_servers:
+      - lab01
+      - lab02
+    records:
+      - name: lab01
+        content: 192.168.123.11
+      - name: lab02
+        content: 192.168.123.12
+      - name: lab03
+        content: 192.168.123.13
+  - name: 123.168.192.in-addr.arpa
+    soa: lab01.lab.internal
+    serial: 1
+    name_servers:
+      - lab01
+      - lab02
+    records:
+      - name: 11
+        type: PTR
+        content: lab01.lab.internal.
+      - name: 12
+        type: PTR
+        content: lab02.lab.internal.
+      - name: 13
+        type: PTR
+        content: lab03.lab.internal.

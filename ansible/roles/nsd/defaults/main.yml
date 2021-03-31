@@ -1,0 +1,24 @@
+---
+
+nsd_interfaces: []
+nsd_verbosity: 1
+nsd_zonesdir: /etc/nsd/zones
+nsd_remote_control: true
+nsd_zones: []
+
+# Example:
+# nsd_interfaces:
+#   - 127.0.0.1@5353
+#
+# nsd_zones:
+#   - name: lab.internal
+#     soa: lab01.lab.internal
+#     serial: 1
+#     name_servers:
+#       - lab01
+#       - lab02
+#     records:
+#       - name: lab01
+#         content: 1.2.3.4
+#       - name: lab02
+#         content: 1.2.3.5

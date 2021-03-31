@@ -1,0 +1,36 @@
+#!/usr/sbin/nft -f
+
+# Example from /usr/share/doc/nftables/examples/workstation.nft
+
+flush ruleset
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0;
+
+        # Accept any localhost traffic
+        iif lo accept
+
+        # Accept traffic originated from us
+        ct state established,related accept        
+
+        # Always accept ssh
+        tcp dport { 22 } ct state new accept
+
+        {% if nftables_input_tcp -%}
+        # Accept TCP services
+        tcp dport { {{ nftables_input_tcp | join(', ') }} } ct state new accept
+        {% endif %}
+
+        {% if nftables_input_udp -%}
+        # Accept UDP services
+        udp dport { {{ nftables_input_udp | join(', ') }} } ct state new accept
+        {% endif %}
+
+        # Accept neighbour discovery otherwise IPv6 connectivity breaks
+        ip6 nexthdr icmpv6 icmpv6 type { nd-neighbor-solicit, nd-router-advert, nd-neighbor-advert } accept
+
+        # Count and drop any other traffic
+        counter drop
+    }
+}

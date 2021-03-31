@@ -1,0 +1,18 @@
+$ORIGIN {{ item.name }}.
+$TTL {{ item.ttl | default('3600') }}
+
+@   IN  SOA {{ item.soa }}. hostmaster.{{ item.name }}. (
+    {{ item.serial }} ; Serial
+    {{ item.refresh | default('10800') }} ; Refresh
+    {{ item.retry | default('3600') }} ; Retry
+    {{ item.expire | default('604800') }} ; Expire
+    {{ item.minimum | default('3600') }} ; Minimum
+)
+
+{% for ns in item.name_servers %}
+    IN  NS  {{ ns }}
+{% endfor %}
+
+{% for record in item.records %}
+{{ record.name }}   IN  {{ record.type | default('A') }}   {{ record.content }}
+{% endfor %}

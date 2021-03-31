@@ -1,0 +1,11 @@
+---
+
+- name: restart nsd
+  ansible.builtin.service:
+    name: nsd
+    state: restarted
+
+- name: reload nsd
+  ansible.builtin.service:
+    name: nsd
+    state: reloaded

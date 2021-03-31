@@ -1,0 +1,18 @@
+server:
+    verbosity: {{ nsd_verbosity }}
+    zonesdir: {{ nsd_zonesdir }}
+    hide-version: yes
+{% for interface in nsd_interfaces %}
+    interface: {{ interface }}
+{% endfor %}
+
+{% if nsd_remote_control %}
+remote-control:
+    control-enable: yes
+{% endif %}
+
+{% for zone in nsd_zones %}
+zone:
+    name: {{ zone.name }}
+    zonefile: {{ zone.name }}.zone
+{% endfor %}

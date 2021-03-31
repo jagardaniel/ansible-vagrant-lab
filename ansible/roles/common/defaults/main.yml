@@ -1,0 +1,8 @@
+---
+
+nftables_input_tcp: []
+nftables_input_udp: []
+
+# Example:
+# nftables_input_tcp: [80, 443]
+# nftables_input_udp: [53]
