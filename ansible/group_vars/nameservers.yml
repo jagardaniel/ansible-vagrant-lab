@@ -3,9 +3,6 @@
 nftables_input_tcp: [53]
 nftables_input_udp: [53]
 
-nsd_interfaces:
-  - 127.0.0.1@5353
-
 nsd_zones:
   - name: lab.internal
     soa: lab01.lab.internal

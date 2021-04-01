@@ -1,15 +1,13 @@
 server:
-    verbosity: {{ nsd_verbosity }}
-    zonesdir: {{ nsd_zonesdir }}
-    hide-version: yes
 {% for interface in nsd_interfaces %}
     interface: {{ interface }}
 {% endfor %}
+    verbosity: {{ nsd_verbosity }}
+    hide-version: {{ 'yes' if nsd_hide_version else 'no' }}
+    zonesdir: {{ nsd_zonesdir }}
 
-{% if nsd_remote_control %}
 remote-control:
-    control-enable: yes
-{% endif %}
+    control-enable: {{ 'yes' if nsd_remote_control else 'no' }}
 
 {% for zone in nsd_zones %}
 zone:

@@ -1,7 +1,10 @@
-lab01 ansible_ssh_host=192.168.123.11
-lab02 ansible_ssh_host=192.168.123.12
-lab03 ansible_ssh_host=192.168.123.13
+lab01 ansible_host=192.168.123.11
+lab02 ansible_host=192.168.123.12
+lab03 ansible_host=192.168.123.13
 
 [nameservers]
 lab01
 lab02
+
+[resolvers]
+lab03

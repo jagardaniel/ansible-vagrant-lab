@@ -1,0 +1,39 @@
+server:
+{% for interface in unbound_interfaces %}
+    interface: {{ interface }}
+{% endfor %}
+    verbosity: {{ unbound_verbosity }}
+    hide-version: {{ 'yes' if unbound_hide_version else 'no' }}
+    do-not-query-localhost: {{ 'yes' if unbound_do_not_query_localhost else 'no' }}
+    root-hints: {{ unbound_root_hints }}
+
+{% for access in unbound_access_control %}
+    access-control: {{ access.netblock }} {{ access.action }}
+{% endfor %}
+
+{% for domain in unbound_insecure_domains %}
+    domain-insecure: "{{ domain }}"
+{% endfor %}
+
+{% for zone in unbound_local_zones %}
+    local-zone: "{{ zone.name }}" {{ zone.type }}
+{% endfor %}
+
+remote-control:
+    control-enable: {{ 'yes' if unbound_remote_control else 'no' }}
+
+{% for zone in unbound_forward_zones %}
+forward-zone:
+    name: "{{ zone.name }}"
+{% for server in zone.servers %}
+    forward-addr: {{ server }}
+{% endfor %}
+{% endfor %}
+
+{% for zone in unbound_stub_zones %}
+stub-zone:
+    name: "{{ zone.name }}"
+{% for server in zone.servers %}
+    stub-addr: {{ server }}
+{% endfor %}
+{% endfor %}

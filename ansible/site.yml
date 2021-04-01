@@ -4,3 +4,8 @@
   roles:
     - common
     - nsd
+
+- hosts: resolvers
+  roles:
+    - common
+    - unbound

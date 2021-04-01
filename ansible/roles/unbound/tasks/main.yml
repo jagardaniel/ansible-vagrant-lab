@@ -1,0 +1,19 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: unbound
+    state: present
+  tags: unbound
+
+- name: Copy configuration
+  ansible.builtin.template:
+    src: local.conf.j2
+    dest: /etc/unbound/unbound.conf.d/local.conf
+    owner: root
+    group: root
+    mode: 0644
+    validate: /usr/sbin/unbound-checkconf %s
+  notify:
+    - restart unbound
+  tags: unbound

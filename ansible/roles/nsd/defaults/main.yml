@@ -2,6 +2,7 @@
 
 nsd_interfaces: []
 nsd_verbosity: 1
+nsd_hide_version: yes
 nsd_zonesdir: /etc/nsd/zones
 nsd_remote_control: true
 nsd_zones: []

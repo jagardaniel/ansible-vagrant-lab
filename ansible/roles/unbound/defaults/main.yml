@@ -1,0 +1,40 @@
+---
+
+unbound_interfaces: []
+unbound_verbosity: 1
+unbound_hide_version: true
+unbound_remote_control: true
+unbound_do_not_query_localhost: true
+unbound_root_hints: /usr/share/dns/root.hints
+unbound_access_control: []
+unbound_local_zones: []
+unbound_insecure_domains: []
+unbound_forward_zones: []
+unbound_stub_zones: []
+
+# Example:
+# unbound_interfaces:
+#   - 127.0.0.1@53
+#
+# unbound_access_control:
+#   - netblock: 192.168.0.0/24
+#     action: allow
+#
+# unbound_local_zones:
+#   - name: 168.192.in-addr.arpa
+#     type: nodefault
+#
+# unbound_insecure_domains:
+#   - lab.internal
+#
+# unbound_forward_zone:
+#   - name: "."
+#     servers:
+#       - 1.1.1.1
+#       - 8.8.8.8
+#
+# unbound_stub_zones:
+#   - name: lab.internal
+#     servers:
+#       - 127.0.0.1
+#       - 127.0.0.2
