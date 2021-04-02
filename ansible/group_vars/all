@@ -1,0 +1,7 @@
+---
+
+resolvconf_search: lab.internal
+
+resolvconf_nameservers:
+  - 192.168.123.13
+  - 1.1.1.1 # Needed since our resolver may not be up and running yet

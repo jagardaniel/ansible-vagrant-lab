@@ -3,6 +3,9 @@
 nftables_input_tcp: []
 nftables_input_udp: []
 
+resolvconf_search: lab.internal
+resolvconf_nameservers: []
+
 # Example:
 # nftables_input_tcp: [80, 443]
 # nftables_input_udp: [53]

@@ -1,0 +1,26 @@
+---
+
+- name: Install nftables package
+  ansible.builtin.package:
+    name: nftables
+    state: present
+  tags: nftables
+
+- name: Ensure nftables service is enabled and running
+  ansible.builtin.service:
+    name: nftables
+    state: started
+    enabled: yes
+  tags: nftables
+
+- name: Copy nftables ruleset
+  ansible.builtin.template:
+    src: nftables.conf.j2
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: 0740
+    validate: /usr/sbin/nft -cf %s
+  notify:
+    - reload nftables
+  tags: nftables

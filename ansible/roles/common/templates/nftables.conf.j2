@@ -27,6 +27,9 @@ table inet filter {
         udp dport { {{ nftables_input_udp | join(', ') }} } ct state new accept
         {% endif %}
 
+        # Accept ICMP
+        ip protocol icmp accept
+
         # Accept neighbour discovery otherwise IPv6 connectivity breaks
         ip6 nexthdr icmpv6 icmpv6 type { nd-neighbor-solicit, nd-router-advert, nd-neighbor-advert } accept
 

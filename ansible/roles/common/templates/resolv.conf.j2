@@ -1,0 +1,6 @@
+search {{ resolvconf_search }}
+domain {{ resolvconf_search }}
+
+{% for server in resolvconf_nameservers %}
+nameserver {{ server }}
+{% endfor %}
