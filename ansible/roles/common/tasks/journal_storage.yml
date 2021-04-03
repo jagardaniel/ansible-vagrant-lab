@@ -1,0 +1,20 @@
+---
+
+- name: Create journal directory
+  ansible.builtin.file:
+    path: /var/log/journal
+    state: directory
+  register: create_journal_dir
+  tags: journal_storage
+
+- name: Create systemd tmpfiles
+  ansible.builtin.command:
+    cmd: /usr/bin/systemd-tmpfiles --create --prefix /var/log/journal
+  when: create_journal_dir.changed
+  tags: journal_storage
+
+- name: Remove rsyslog package
+  ansible.builtin.package:
+    name: rsyslog
+    state: absent
+  tags: journal_storage

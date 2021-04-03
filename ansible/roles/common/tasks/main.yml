@@ -5,3 +5,6 @@
 
 - name: Include resolvconf tasks
   import_tasks: resolvconf.yml
+
+- name: Include journal_storage tasks
+  import_tasks: journal_storage.yml
