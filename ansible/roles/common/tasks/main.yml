@@ -1,7 +1,11 @@
 ---
 
-- name: Update apt cache
-  ansible.builtin.apt:
+- name: Install base packages
+  ansible.builtin.package:
+    name:
+      - acl
+      - gnupg2
+    state: present
     update_cache: yes
 
 - name: Include nftables tasks

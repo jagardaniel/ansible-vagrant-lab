@@ -1,0 +1,6 @@
+---
+
+postgresql_listen_addresses: "*"
+
+postgresql_allowed_networks:
+  - 192.168.123.0/24

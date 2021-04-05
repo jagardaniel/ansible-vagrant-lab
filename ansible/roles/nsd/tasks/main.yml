@@ -32,7 +32,7 @@
     group: root
     mode: 0644
     validate: "/usr/sbin/nsd-checkzone {{ item.name }} %s"
-  with_items: "{{ nsd_zones }}"
+  loop: "{{ nsd_zones }}"
   loop_control:
     label: "{{ item.name }}"
   notify:

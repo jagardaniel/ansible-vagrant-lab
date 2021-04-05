@@ -1,0 +1,51 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: 
+      - postgresql
+      - python3-psycopg2
+    state: present
+  tags: postgresql
+
+- name: Copy configuration
+  ansible.builtin.template:
+    src: local.conf.j2
+    dest: /etc/postgresql/11/main/conf.d/local.conf
+    owner: postgres
+    group: postgres
+    mode: 0644
+  notify:
+    - restart postgresql
+  tags: postgresql
+
+- name: Copy client authentication configuration
+  ansible.builtin.template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/11/main/pg_bha.conf
+    owner: postgres
+    group: postgres
+    mode: 0640
+  notify:
+    - reload postgresql
+  tags: postgresql
+
+- name: Manage users
+  community.postgresql.postgresql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: "{{ item.state }}"
+  loop: "{{ postgresql_users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  become_user: postgres
+  tags: postgresql
+
+- name: Manage databases
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    state: "{{ item.state }}"
+  loop: "{{ postgresql_databases }}"
+  become_user: postgres
+  tags: postgresql

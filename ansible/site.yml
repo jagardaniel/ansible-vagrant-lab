@@ -11,3 +11,7 @@
 - hosts: resolvers
   roles:
     - unbound
+
+- hosts: dbservers
+  roles:
+    - postgresql

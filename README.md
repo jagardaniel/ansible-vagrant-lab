@@ -28,11 +28,11 @@ You should now be able to SSH into the ansible VM and run Ansible. It is the pri
 $ vagrant ssh
 ```
 
- The local `ansible/` directory is synced with `/home/vagrant/ansible` so this is where you want to be located when running Ansible commands, otherwise Ansible will not find the inventory or configuration file.
+ The local `ansible/` directory is synced with `/ansible` so this is where you want to be located when running Ansible commands, otherwise Ansible will not find the inventory or configuration file.
 ```bash
-vagrant@ansible:~$ cd ansible/
+vagrant@ansible:~$ cd /ansible
 
-vagrant@ansible:~/ansible$ ansible -m ping lab01
+vagrant@ansible:/ansible$ ansible -m ping lab01
 lab01 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -42,9 +42,28 @@ lab01 | SUCCESS => {
 }
 ```
 
-Unfortunately the sync between the local `ansible/` and the `/home/vagrant/ansible` directory on the ansible VM only happens when the VMs are being set up. The easiest way to "solve" this is to run `vagrant rsync-auto` in another window. Vagrant will then watch the local directory and auto-sync when changes are detected.
+Unfortunately the sync between the local `ansible/` and the `/ansible` directory on the ansible VM only happens when the VMs are being set up. The easiest way to "solve" this is to run `vagrant rsync-auto` in another window. Vagrant will then watch the local directory and auto-sync when changes are detected.
 ```bash
 $ vagrant rsync-auto
 ```
 
 You can also manually run `vagrant rsync` after you have done your changes to sync.
+
+
+## Run playbooks
+
+Many modules are no longer included in the base Ansible installation and has been moved into something called collections. So before using these modules (like postgresql) in a playbook we need to install them. One way is to install them from a requirements file.
+
+```bash
+vagrant@ansible:/ansible$ ansible-galaxy collection install -r requirements.yml
+```
+
+Run everything!
+```bash
+vagrant@ansible:/ansible$ ansible-playbook site.yml
+```
+
+Only target hosts in the group `nameservers` and tasks with the tag `nsd`
+```bash
+vagrant@ansible:/ansible$ ansible-playbook site.yml --limit nameservers --tags nsd
+```

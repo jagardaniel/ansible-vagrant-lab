@@ -1,0 +1,25 @@
+---
+
+# The only thing we need right now is to create users and databases with an user
+# as owner. This role could be fancier if we for example needed specific 
+# database permissions or stricter client authentication rules. Keep it simple 
+# right now.
+
+postgresql_listen_addresses: localhost
+postgresql_users: []
+postgresql_databases: []
+postgresql_allowed_networks: []
+
+# Example:
+# postgresql_users:
+#   - name: daniel
+#     password: daniel
+#     state: present
+# 
+# postgresql_databases:
+#   - name: daniel
+#     owner: daniel
+#     state: present
+#
+# postgresql_allowed_networks:
+#   - 192.168.0.0/24

@@ -8,3 +8,6 @@ lab02.lab.internal
 
 [resolvers]
 lab03.lab.internal
+
+[dbservers]
+lab03.lab.internal
