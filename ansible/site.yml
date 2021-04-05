@@ -1,11 +1,13 @@
 ---
 
-- hosts: nameservers
+- hosts: all
   roles:
     - common
+
+- hosts: nameservers
+  roles:
     - nsd
 
 - hosts: resolvers
   roles:
-    - common
     - unbound

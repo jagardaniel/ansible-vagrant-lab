@@ -1,5 +1,9 @@
 ---
 
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
 - name: Include nftables tasks
   import_tasks: nftables.yml
 

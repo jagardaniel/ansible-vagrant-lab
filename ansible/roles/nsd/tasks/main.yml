@@ -36,5 +36,5 @@
   loop_control:
     label: "{{ item.name }}"
   notify:
-    - reload nsd
+    - reload zones
   tags: nsd

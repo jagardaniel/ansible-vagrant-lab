@@ -5,7 +5,6 @@
     name: nsd
     state: restarted
 
-- name: reload nsd
-  ansible.builtin.service:
-    name: nsd
-    state: reloaded
+- name: reload zones
+  ansible.builtin.command:
+    cmd: /usr/sbin/nsd-control reload
