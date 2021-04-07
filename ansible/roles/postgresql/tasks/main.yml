@@ -22,7 +22,7 @@
 - name: Copy client authentication configuration
   ansible.builtin.template:
     src: pg_hba.conf.j2
-    dest: /etc/postgresql/11/main/pg_bha.conf
+    dest: /etc/postgresql/11/main/pg_hba.conf
     owner: postgres
     group: postgres
     mode: 0640

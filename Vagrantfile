@@ -1,8 +1,8 @@
 nodes = {
-  "ansible" => { :ip => "192.168.123.10", :primary => true, :memory => 512 },
-  "lab01" => { :ip => "192.168.123.11", :primary => false, :memory => 2048 },
-  "lab02" => { :ip => "192.168.123.12", :primary => false, :memory => 2048 },
-  "lab03" => { :ip => "192.168.123.13", :primary => false, :memory => 2048 }
+  "ansible" => { :ip => "192.168.123.10", :primary => true, :memory => 512, :ports => [] },
+  "lab01" => { :ip => "192.168.123.11", :primary => false, :memory => 2048, :ports => ["8000:8000"] },
+  "lab02" => { :ip => "192.168.123.12", :primary => false, :memory => 2048, :ports => []},
+  "lab03" => { :ip => "192.168.123.13", :primary => false, :memory => 2048, :ports => []}
 }
 
 $setup_primary = <<-SCRIPT
@@ -35,6 +35,12 @@ Vagrant.configure("2") do |config|
           destination: "/home/vagrant/.ssh/vagrant_lab.pub"
 
         conf.vm.provision "shell", inline: $setup_base
+      end
+
+      # Forward ports so we can reach services from the host
+      detail[:ports].each do |port|
+        ports = port.split(":")
+        conf.vm.network "forwarded_port", guest: ports[0].to_i, host: ports[1].to_i
       end
 
       conf.vm.provider "virtualbox" do |v|
