@@ -38,3 +38,8 @@
   notify:
     - reload zones
   tags: nsd
+
+# If we run nsd and unbound on the same server and the roles after eachother
+# unbound fails to start because nsd is already using port 53. This is probably
+# because nds is slower to (re)start. Flush handlers now instead to avoid this.
+- meta: flush_handlers

@@ -6,8 +6,5 @@ lab03.lab.internal ansible_host=192.168.123.13
 lab01.lab.internal
 lab02.lab.internal
 
-[resolvers]
-lab03.lab.internal
-
 [dbservers]
 lab03.lab.internal

@@ -1,7 +1,8 @@
 ---
 
-nftables_input_tcp: [53]
-nftables_input_udp: [53]
+# Run nsd and unbound on the same server(s) - usually not recommended
+nsd_interfaces:
+  - 127.0.0.1@5353
 
 nsd_zones:
   - name: lab.internal
@@ -16,6 +17,8 @@ nsd_zones:
       - name: lab02
         content: 192.168.123.12
       - name: lab03
+        content: 192.168.123.13
+      - name: db
         content: 192.168.123.13
   - name: 123.168.192.in-addr.arpa
     soa: lab01.lab.internal
@@ -33,3 +36,30 @@ nsd_zones:
       - name: 13
         type: PTR
         content: lab03.lab.internal.
+
+unbound_interfaces:
+  - 0.0.0.0
+
+# Allow queries to localhost
+unbound_do_not_query_localhost: false
+
+# Ignore DNSSEC
+unbound_insecure_domains:
+  - lab.internal
+
+# Required for reverse DNS in our private address range
+unbound_local_zones:
+  - name: 168.192.in-addr.arpa
+    type: nodefault
+
+unbound_access_control:
+  - netblock: 192.168.123.0/24
+    action: allow
+
+unbound_stub_zones:
+  - name: lab.internal
+    servers:
+      - 127.0.0.1@5353
+  - name: 123.168.192.in-addr.arpa
+    servers:
+      - 127.0.0.1@5353

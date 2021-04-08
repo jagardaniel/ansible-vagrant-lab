@@ -1,7 +1,14 @@
 ---
 
+# One issue with reusing the same VM for multiple groups is that we cannot set
+# the same common variables because they will get overwritten. This wouldn't be an issue
+# if we had VMs that only belong to one group. So for now just open all neededed ports on all VMs.
+nftables_input_tcp: [53, 80, 5432]
+nftables_input_udp: [53]
+
 resolvconf_search: lab.internal
 
 resolvconf_nameservers:
-  - 192.168.123.13
+  - 192.168.123.11
+  - 192.168.123.12
   - 1.1.1.1 # Needed since our resolver may not be up and running yet

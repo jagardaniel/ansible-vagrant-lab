@@ -7,9 +7,6 @@
 - hosts: nameservers
   roles:
     - nsd
-
-- hosts: resolvers
-  roles:
     - unbound
 
 - hosts: dbservers
