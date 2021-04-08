@@ -4,3 +4,13 @@ postgresql_listen_addresses: "*"
 
 postgresql_allowed_networks:
   - 192.168.123.0/24
+
+postgresql_users:
+  - name: zabbix
+    password: "{{ vault_postgresql_zabbix_password }}"
+    state: present
+
+postgresql_databases:
+  - name: zabbix
+    owner: zabbix
+    state: present

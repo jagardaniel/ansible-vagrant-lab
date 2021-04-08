@@ -1,0 +1,39 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - zabbix-frontend-php
+      - zabbix-nginx-conf
+      - php7.3-pgsql
+  register: install_packages
+  tags: zabbix-web
+
+# The zabbix-nginx-conf package will place a symlink
+# to this configuration in /etc/nginx/conf.d
+- name: Copy nginx configuration
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/zabbix/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload nginx
+  tags: zabbix-web
+
+- name: Copy web configuration
+  ansible.builtin.template:
+    src: zabbix.conf.php.j2
+    dest: /etc/zabbix/web/zabbix.conf.php
+    owner: www-data
+    group: www-data
+    mode: 0600
+  tags: zabbix-web
+
+- name: Restart services
+  ansible.builtin.service:
+    name: php7.3-fpm
+    state: restarted
+  when: install_packages.changed
+  tags: zabbix-web

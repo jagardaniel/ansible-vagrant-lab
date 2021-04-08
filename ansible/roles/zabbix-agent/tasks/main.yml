@@ -1,0 +1,15 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: zabbix-agent
+    state: present
+  tags: zabbix-agent
+
+- name: Copy configuration
+  ansible.builtin.template:
+    src: local.conf.j2
+    dest: /etc/zabbix/zabbix_agentd.d/local.conf
+  notify:
+    - restart zabbix-agent
+  tags: zabbix-agent

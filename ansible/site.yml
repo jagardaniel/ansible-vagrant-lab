@@ -3,6 +3,7 @@
 - hosts: all
   roles:
     - common
+    - zabbix-agent
 
 - hosts: nameservers
   roles:
@@ -12,3 +13,8 @@
 - hosts: dbservers
   roles:
     - postgresql
+
+- hosts: monitoring
+  roles:
+    - zabbix-server
+    - zabbix-web

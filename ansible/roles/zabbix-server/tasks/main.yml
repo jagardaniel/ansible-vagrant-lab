@@ -1,0 +1,61 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - zabbix-server-pgsql
+      - postgresql-client
+  tags: zabbix-server
+
+- name: Create configuration directory
+  ansible.builtin.file:
+    path: /etc/zabbix/zabbix_server.d
+    state: directory
+  tags: zabbix-server
+
+- name: Include the new configuration directory in the main configuration
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    line: Include=/etc/zabbix/zabbix_server.d/*.conf
+    insertafter: "^# Include=$"
+  tags: zabbix-server
+
+- name: Copy configuration file
+  ansible.builtin.template:
+    src: local.conf.j2
+    dest: /etc/zabbix/zabbix_server.d/local.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    -  restart zabbix-server
+  tags: zabbix-server
+
+# I'm not sure if the SQL import should be done here, in the database role or with delegated_to.
+# There are also probably better ways to do this but I'm not that smart
+# Command from Zabbix installation page
+- name: Import SQL
+  ansible.builtin.shell:
+    cmd: |
+      /usr/bin/zcat /usr/share/doc/zabbix-server-pgsql/create.sql.gz | 
+      /usr/bin/psql -h "{{ zabbix_server_db_server }}" -U "{{ zabbix_server_db_username }}" -d "{{ zabbix_server_db_database }}"
+    creates: /etc/zabbix/sql_imported
+  environment:
+    PGPASSWORD: "{{ zabbix_server_db_password }}"
+  register: import_sql
+  tags: zabbix-server
+
+- name: Create empty file to mark that SQL has been imported
+  ansible.builtin.file:
+    path: /etc/zabbix/sql_imported
+    state: touch
+  when: import_sql.changed
+  tags: zabbix-server
+
+- name: Start and enable service
+  ansible.builtin.service:
+    name: zabbix-server
+    state: started
+    enabled: yes
+  register: start_zabbix_server
+  tags: zabbix-server

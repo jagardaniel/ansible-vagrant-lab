@@ -1,0 +1,18 @@
+---
+
+# Do not listen for a specific domain name in nginx to make it more convenient
+# to reach it outside VirtualBoxs network. Use underscore to "catch all".
+# Zabbix server
+zabbix_server_nginx_server_name: _
+zabbix_server_nginx_port: 8000
+
+zabbix_server_db_server: db.lab.internal
+zabbix_server_db_database: zabbix
+zabbix_server_db_username: zabbix
+zabbix_server_db_password: "{{ vault_postgresql_zabbix_password }}"
+
+# Zabbix web need the same databas values
+zabbix_web_db_server: "{{ zabbix_server_db_server }}"
+zabbix_web_db_database: "{{ zabbix_server_db_database }}"
+zabbix_web_db_username: "{{ zabbix_server_db_username }}"
+zabbix_web_db_password: "{{ zabbix_server_db_password }}"

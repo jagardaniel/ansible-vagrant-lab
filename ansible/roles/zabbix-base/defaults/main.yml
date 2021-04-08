@@ -1,0 +1,4 @@
+---
+
+zabbix_base_key_url: https://repo.zabbix.com/zabbix-official-repo.key
+zabbix_base_repo: deb http://repo.zabbix.com/zabbix/5.2/debian buster main

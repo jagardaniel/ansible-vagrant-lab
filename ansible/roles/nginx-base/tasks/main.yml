@@ -1,0 +1,14 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: nginx
+    state: present
+  tags: nginx-base
+
+- name: Disable default configuration
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
+  tags: nginx-base

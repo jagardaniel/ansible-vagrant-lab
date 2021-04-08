@@ -1,0 +1,21 @@
+---
+
+- name: Add apt key
+  ansible.builtin.apt_key:
+    url: "{{ zabbix_base_key_url }}"
+    state: present
+  tags: zabbix-base
+
+- name: Add repository
+  ansible.builtin.apt_repository:
+    repo: "{{ zabbix_base_repo }}"
+    state: present
+    filename: zabbix
+    update_cache: yes
+  tags: zabbix-base
+
+- name: Add apt preferences file
+  ansible.builtin.copy:
+    src: zabbix_preference
+    dest: /etc/apt/preferences.d/zabbix
+  tags: zabbix-base

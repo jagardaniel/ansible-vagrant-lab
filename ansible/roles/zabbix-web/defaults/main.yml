@@ -1,0 +1,11 @@
+---
+
+zabbix_web_db_server: 127.0.0.1
+zabbix_web_db_port: 0
+zabbix_web_db_database: zabbix
+zabbix_web_db_username: zabbix
+zabbix_web_db_password: zabbix
+
+zabbix_web_zabbix_server: 127.0.0.1
+zabbix_web_zabbix_port: 10051
+zabbix_web_zabbix_server_name: Zabbix server

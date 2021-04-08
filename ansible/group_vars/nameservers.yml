@@ -20,6 +20,8 @@ nsd_zones:
         content: 192.168.123.13
       - name: db
         content: 192.168.123.13
+      - name: monitor
+        content: 192.168.123.11
   - name: 123.168.192.in-addr.arpa
     soa: lab01.lab.internal
     serial: 1

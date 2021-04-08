@@ -1,0 +1,9 @@
+---
+
+zabbix_server_nginx_server_name: 127.0.0.1
+zabbix_server_nginx_port: 80
+
+zabbix_server_db_server: 127.0.0.1
+zabbix_server_db_database: zabbix
+zabbix_server_db_username: zabbix
+zabbix_server_db_password: zabbix

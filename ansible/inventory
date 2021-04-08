@@ -8,3 +8,6 @@ lab02.lab.internal
 
 [dbservers]
 lab03.lab.internal
+
+[monitoring]
+lab01.lab.internal
