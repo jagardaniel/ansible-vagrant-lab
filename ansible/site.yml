@@ -10,6 +10,14 @@
     - nsd
     - unbound
 
+- hosts: logging
+  roles:
+    - journal-remote
+
+- hosts: all:!logging
+  roles:
+    - journal-upload
+
 - hosts: dbservers
   roles:
     - postgresql

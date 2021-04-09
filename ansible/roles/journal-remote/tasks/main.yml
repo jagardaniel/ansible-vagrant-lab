@@ -1,0 +1,26 @@
+---
+
+# https://www.digitalocean.com/community/tutorials/how-to-centralize-logs-with-journald-on-debian-10
+
+- name: Create override directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/systemd-journal-remote.service.d
+    state: directory
+  tags: journal-remote
+
+# Make journal-remote insecure!
+- name: Copy override file
+  ansible.builtin.copy:
+    src: override.conf
+    dest: /etc/systemd/system/systemd-journal-remote.service.d/override.conf
+  tags: journal-remote
+
+- name: Enable socket and service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - systemd-journal-remote.socket
+    - systemd-journal-remote.service
+  tags: journal-remote

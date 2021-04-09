@@ -3,10 +3,12 @@
 # One issue with reusing the same VM for multiple groups is that we cannot set
 # the same common/shared variables because they will get overwritten.
 # So for now just open all neededed ports on all VMs.
-nftables_input_tcp: [53, 5432, 8000, 10050]
+nftables_input_tcp: [53, 5432, 8000, 10050, 19532]
 nftables_input_udp: [53]
 
 zabbix_agent_server: monitor.lab.internal,127.0.0.1
+
+journal_upload_url: http://log.lab.internal:19532
 
 resolvconf_search: lab.internal
 

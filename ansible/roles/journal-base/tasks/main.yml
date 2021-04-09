@@ -1,0 +1,7 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: systemd-journal-remote
+    state: present
+  tags: journal-base

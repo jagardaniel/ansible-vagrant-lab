@@ -1,0 +1,22 @@
+---
+
+# https://www.digitalocean.com/community/tutorials/how-to-centralize-logs-with-journald-on-debian-10
+# ... but without TLS
+
+- name: Copy configuration
+  ansible.builtin.template:
+    src: journal-upload.conf.j2
+    dest: /etc/systemd/journal-upload.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart journal-upload
+  tags: journal-upload
+
+- name: Start and enable service
+  ansible.builtin.service:
+    name: systemd-journal-upload
+    state: started
+    enabled: yes
+  tags: journal-upload
