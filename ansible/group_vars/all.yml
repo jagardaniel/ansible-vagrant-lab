@@ -3,7 +3,7 @@
 # One issue with reusing the same VM for multiple groups is that we cannot set
 # the same common/shared variables because they will get overwritten.
 # So for now just open all neededed ports on all VMs.
-nftables_input_tcp: [53, 5432, 8000, 10050, 19532]
+nftables_input_tcp: [53, 3000, 5432, 8000, 10050, 19532]
 nftables_input_udp: [53]
 
 zabbix_agent_server: monitor.lab.internal,127.0.0.1
@@ -19,3 +19,4 @@ resolvconf_nameservers:
 
 # Pretend that these values are encrypted in a vault file
 vault_postgresql_zabbix_password: uHZGeyAtZEjL3f2f
+vault_postgresql_gitea_password: dJNE2ZzqcGjg9fEY3dnT

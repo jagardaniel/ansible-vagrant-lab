@@ -4,6 +4,8 @@ A Vagrant lab environment for Ansible.
 
 ## Overview
 
+A Vagrant environment for me to play around with Ansible. It creates one VM where Ansible is run from (so should work on Windows) and 3 VMs that we can do whatever we want with. The local ansible directory is synced with the Ansible VM so you can modify files locally. While I try to follow Ansibles best practice and instructions from the applications own documentation, the roles I have created are not supposed to cover every configuration option available or to be secure. This is mostly for me to get more familiar with Ansible again and try out different applications and configurations.
+
 ## Requirements
 
 - VirtualBox
@@ -64,4 +66,5 @@ vagrant@ansible:/ansible$ ansible-playbook site.yml --limit nameservers --tags n
 
 ```
 Zabbix dashboard - http://localhost:8000 (default login is Admin:zabbix)
+Gitea - http://localhost:3000 (first registered user becomes admin)
 ```

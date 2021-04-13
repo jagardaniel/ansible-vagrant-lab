@@ -1,0 +1,16 @@
+---
+
+gitea_user: gitea
+gitea_work_dir: /var/lib/gitea
+
+gitea_download_url: https://dl.gitea.io/gitea/1.14.0/gitea-1.14.0-linux-amd64
+gitea_sha256_sum: f3c67ff8644b8ba7947d69a31fbae95f879f181a6038c0737740771075bada24
+
+gitea_app_name: "Gitea: Git with a cup of tea"
+gitea_http_port: 3000
+gitea_root_url: http://localhost:3000/
+
+gitea_db_server: 127.0.0.1
+gitea_db_username: gitea
+gitea_db_password: gitea
+gitea_db_database: gitea

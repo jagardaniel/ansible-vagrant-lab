@@ -26,3 +26,7 @@
   roles:
     - zabbix-server
     - zabbix-web
+
+- hosts: gitservers
+  roles:
+    - gitea

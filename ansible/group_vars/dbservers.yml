@@ -9,8 +9,14 @@ postgresql_users:
   - name: zabbix
     password: "{{ vault_postgresql_zabbix_password }}"
     state: present
+  - name: gitea
+    password: "{{ vault_postgresql_gitea_password }}"
+    state: present
 
 postgresql_databases:
   - name: zabbix
     owner: zabbix
+    state: present
+  - name: gitea
+    owner: gitea
     state: present

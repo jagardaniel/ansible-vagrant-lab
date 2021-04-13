@@ -1,0 +1,8 @@
+---
+
+gitea_app_name: Git server
+
+gitea_db_server: db.lab.internal
+gitea_db_username: gitea
+gitea_db_password: "{{ vault_postgresql_gitea_password }}"
+gitea_db_database: gitea

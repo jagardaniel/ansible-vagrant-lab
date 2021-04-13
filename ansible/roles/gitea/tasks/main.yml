@@ -1,0 +1,122 @@
+---
+
+- name: Install required packages
+  ansible.builtin.package:
+    name: git
+    state: present
+  tags: gitea
+
+- name: Create system user
+  ansible.builtin.user:
+    name: "{{ gitea_user }}"
+    comment: Gitea User
+    create_home: no
+    home: "{{ gitea_work_dir }}"
+    shell: /usr/sbin/nologin
+    system: yes
+    state: present
+  tags: gitea
+
+- name: Download Gitea
+  ansible.builtin.get_url:
+    url: "{{ gitea_download_url }}"
+    checksum: "sha256:{{ gitea_sha256_sum }}"
+    dest: /usr/local/bin/gitea
+    mode: 0755
+  tags: gitea
+
+- name: Create work directories
+  ansible.builtin.file:
+    path: "{{ gitea_work_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_user }}"
+    mode: 0750
+  loop:
+    - custom
+    - data
+    - log
+  tags: gitea
+
+- name: Create configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: "{{ gitea_user }}"
+    mode: 0750
+  loop:
+    - /etc/gitea
+    - /etc/gitea/secrets
+  tags: gitea
+
+# Idea from: https://github.com/thomas-maurice/ansible-role-gitea/blob/master/tasks/jwt_secrets.yml
+# Generate secrets the first time so we don't have to to pre-define them as vars
+- name: Generate secret tokens
+  ansible.builtin.shell:
+    cmd: "umask 0077; /usr/local/bin/gitea generate secret {{ item }} > /etc/gitea/secrets/{{ item }}"
+    creates: "/etc/gitea/secrets/{{ item }}"
+  loop:
+    - INTERNAL_TOKEN
+    - JWT_SECRET
+    - SECRET_KEY
+    - LFS_JWT_SECRET
+  tags: gitea
+
+# There is probably a better way to do this in some kind of loop
+# The issue is that register does not support dynamic names
+- name: Get content from INTERNAL_TOKEN file
+  ansible.builtin.slurp:
+    src: /etc/gitea/secrets/INTERNAL_TOKEN
+  register: secret_INTERNAL_TOKEN
+  tags: gitea
+
+- name: Get content from JWT_SECRET file
+  ansible.builtin.slurp:
+    src: /etc/gitea/secrets/JWT_SECRET
+  register: secret_JWT_SECRET
+  tags: gitea
+
+- name: Get content from SECRET_KEY file
+  ansible.builtin.slurp:
+    src: /etc/gitea/secrets/SECRET_KEY
+  register: secret_SECRET_KEY
+  tags: gitea
+
+- name: Get content from LFS_JWT_SECRET file
+  ansible.builtin.slurp:
+    src: /etc/gitea/secrets/LFS_JWT_SECRET
+  register: secret_LFS_JWT_SECRET
+  tags: gitea
+
+- name: Prepare content from secrets file for template
+  ansible.builtin.set_fact:
+    _gitea_secret_INTERNAL_TOKEN: "{{ secret_INTERNAL_TOKEN['content'] | b64decode }}"
+    _gitea_secret_JWT_SECRET: "{{ secret_JWT_SECRET['content'] | b64decode }}"
+    _gitea_secret_SECRET_KEY: "{{ secret_SECRET_KEY['content'] | b64decode }}"
+    _gitea_secret_LFS_JWT_SECRET: "{{ secret_LFS_JWT_SECRET['content'] | b64decode }}"
+  tags: gitea
+
+- name: Copy configuration file
+  ansible.builtin.template:
+    src: app.ini.j2
+    dest: /etc/gitea/app.ini
+    owner: root
+    group: "{{ gitea_user }}"
+    mode: 0640
+  notify:
+    - restart gitea
+  tags: gitea
+
+- name: Copy systemd service file
+  ansible.builtin.template:
+    src: gitea.service.j2
+    dest: /etc/systemd/system/gitea.service
+  tags: gitea
+
+- name: Start and enable service
+  ansible.builtin.service:
+    name: gitea
+    state: started
+    enabled: yes
+  tags: gitea
