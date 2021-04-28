@@ -17,3 +17,6 @@ lab01.lab.internal
 
 [gitservers]
 lab02.lab.internal
+
+[saltmasters]
+lab01.lab.internal

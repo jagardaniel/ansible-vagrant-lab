@@ -2,4 +2,3 @@
 
 dependencies:
   - role: zabbix-base
-  - role: nginx-base

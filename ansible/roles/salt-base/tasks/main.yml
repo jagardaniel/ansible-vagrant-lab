@@ -1,0 +1,15 @@
+---
+
+- name: Add apt key
+  ansible.builtin.apt_key:
+    url: "{{ salt_base_key_url }}"
+    state: present
+  tags: salt-base
+
+- name: Add repository
+  ansible.builtin.apt_repository:
+    repo: "{{ salt_base_repo }}"
+    state: present
+    filename: saltstack
+    update_cache: yes
+  tags: salt-base

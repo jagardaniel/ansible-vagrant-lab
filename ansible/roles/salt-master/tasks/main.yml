@@ -1,0 +1,9 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - salt-master
+      - salt-api
+    state: present
+  tags: salt-master

@@ -3,20 +3,19 @@
 - hosts: all
   roles:
     - common
-    - zabbix-agent
 
 - hosts: nameservers
   roles:
     - nsd
     - unbound
 
+- hosts: saltmasters
+  roles:
+    - salt-master
+
 - hosts: logging
   roles:
     - journal-remote
-
-- hosts: all:!logging
-  roles:
-    - journal-upload
 
 - hosts: dbservers
   roles:
@@ -30,3 +29,12 @@
 - hosts: gitservers
   roles:
     - gitea
+
+- hosts: all
+  roles:
+    - salt-minion
+    - zabbix-agent
+
+- hosts: all:!logging
+  roles:
+    - journal-upload

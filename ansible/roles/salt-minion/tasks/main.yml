@@ -1,0 +1,7 @@
+---
+
+- name: Install packages
+  ansible.builtin.package:
+    name: salt-minion
+    state: present
+  tags: salt-minion
